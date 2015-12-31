@@ -1,4 +1,6 @@
-package team25core;/*
+package team25core;
+
+/*
  * FTC Team 25: cmacfarl, September 03, 2015
  */
 

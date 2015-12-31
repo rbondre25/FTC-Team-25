@@ -87,6 +87,15 @@ public class DeadReckonSquareTest extends Robot {
         }
 
         @Override
+        protected void motorStop()
+        {
+            frontRight.setPower(0.0);
+            rearRight.setPower(0.0);
+            frontLeft.setPower(0.0);
+            rearLeft.setPower(0.0);
+        }
+
+        @Override
         protected boolean isBusy()
         {
             return (Math.abs(rearLeft.getCurrentPosition()) < Math.abs(rearLeft.getTargetPosition()));

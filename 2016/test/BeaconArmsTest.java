@@ -1,5 +1,5 @@
 
-package opmodes;
+package test;
 
 /*
  * FTC Team 5218: izzielau, November 02, 2015
@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.DigitalChannelController;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import opmodes.BeaconArms;
+import opmodes.NeverlandServoConstants;
 import team25core.ColorSensorTask;
 import team25core.DeadReckon;
 import team25core.DeadReckonTask;
@@ -23,9 +25,9 @@ import team25core.SingleShotTimerTask;
 import team25core.Team25DcMotor;
 import team25core.TwoWheelGearedDriveDeadReckon;
 
-public class BlueAutonomous extends Robot {
+public class BeaconArmsTest extends Robot {
 
-    private final static int TICKS_PER_INCH = 318;
+    private final static int TICKS_PER_INCH = 200;
     private final static int LED_CHANNEL = 0;
 
     private DcMotorController mc;
@@ -166,11 +168,11 @@ public class BlueAutonomous extends Robot {
 
         // Class: Dead reckon.
         deadReckon = new TwoWheelGearedDriveDeadReckon(this, TICKS_PER_INCH, gyro, leftTread, rightTread);
-        deadReckon.addSegment(DeadReckon.SegmentType.STRAIGHT, 99, 0.9);
+        deadReckon.addSegment(DeadReckon.SegmentType.STRAIGHT, 62, 0.9);
         deadReckon.addSegment(DeadReckon.SegmentType.TURN, -35, 0.7);
-        deadReckon.addSegment(DeadReckon.SegmentType.STRAIGHT, 133, 0.9);
+        deadReckon.addSegment(DeadReckon.SegmentType.STRAIGHT, 84, 0.9);
         deadReckon.addSegment(DeadReckon.SegmentType.TURN, -45, 0.7);
-        deadReckon.addSegment(DeadReckon.SegmentType.STRAIGHT, 27, 0.9);
+        deadReckon.addSegment(DeadReckon.SegmentType.STRAIGHT, 17, 0.9);
         deadReckon.addSegment(DeadReckon.SegmentType.STRAIGHT, 0, 0);
     }
 

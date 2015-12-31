@@ -31,9 +31,10 @@ public class TwoWheelDirectDriveDeadReckon extends DeadReckon {
     @Override
     protected void resetEncoders(int ticks)
     {
+        RobotLog.i("251 Resetting encoders to " + ticks);
         leftMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         rightMotor.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        targetPosition = ticks;
+        leftMotor.setTargetPosition(ticks);
     }
 
     @Override

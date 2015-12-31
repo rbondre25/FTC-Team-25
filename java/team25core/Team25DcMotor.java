@@ -1,3 +1,4 @@
+
 package team25core;
 
 /*
@@ -14,14 +15,13 @@ public class Team25DcMotor extends DcMotor
     protected double power;
     protected int targetPosition;
 
-    protected PeriodicTimerTask ptt = new PeriodicTimerTask(null, 200) {
+    protected PeriodicTimerTask ptt = new PeriodicTimerTask(null, 30) {
         @Override
         public void handleEvent(RobotEvent e)
         {
             Team25DcMotor.super.setPower(Team25DcMotor.this.power);
         }
     };
-
 
     public Team25DcMotor(Robot robot, DcMotorController controller, int portNumber)
     {

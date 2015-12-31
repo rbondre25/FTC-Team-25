@@ -23,7 +23,7 @@ import team25core.SingleShotTimerTask;
 import team25core.Team25DcMotor;
 import team25core.TwoWheelGearedDriveDeadReckon;
 
-public class BlueAutonomous extends Robot {
+public class RedAutonomous extends Robot {
 
     private final static int TICKS_PER_INCH = 318;
     private final static int LED_CHANNEL = 0;
@@ -69,7 +69,7 @@ public class BlueAutonomous extends Robot {
                 {
                     // Class: Dead reckon (push).
                     deadReckonPush = new TwoWheelGearedDriveDeadReckon(this.robot, TICKS_PER_INCH, gyro, leftTread, rightTread);
-                    deadReckonPush.addSegment(DeadReckon.SegmentType.STRAIGHT, -3, 0.4);
+                    deadReckonPush.addSegment(DeadReckon.SegmentType.STRAIGHT, -5, 0.4);
                     deadReckonPush.addSegment(DeadReckon.SegmentType.STRAIGHT, 0, 0);
 
                     deadReckonPushTask = new DeadReckonTask(this.robot, deadReckonPush);
@@ -77,6 +77,7 @@ public class BlueAutonomous extends Robot {
                 }
             };
             this.addTask(ssttafter);
+
 
             break;
         }
@@ -89,7 +90,7 @@ public class BlueAutonomous extends Robot {
                 final BeaconArms pushers = new BeaconArms(rightPusher, leftPusher, true);
                 ColorSensorEvent event = (ColorSensorEvent) e;
 
-                if (event.kind == EventKind.BLUE) {
+                if (event.kind == EventKind.RED) {
                     pushers.allStow();
                     SingleShotTimerTask delay = new SingleShotTimerTask(robot, 2000) {
                         @Override
@@ -99,7 +100,7 @@ public class BlueAutonomous extends Robot {
                         }
                     };
                     addTask(delay);
-                } else if (event.kind == EventKind.RED) {
+                } else if (event.kind == EventKind.BLUE) {
                     pushers.allStow();
                     SingleShotTimerTask delay = new SingleShotTimerTask(robot, 2000) {
                         @Override
@@ -167,9 +168,9 @@ public class BlueAutonomous extends Robot {
         // Class: Dead reckon.
         deadReckon = new TwoWheelGearedDriveDeadReckon(this, TICKS_PER_INCH, gyro, leftTread, rightTread);
         deadReckon.addSegment(DeadReckon.SegmentType.STRAIGHT, 99, 0.9);
-        deadReckon.addSegment(DeadReckon.SegmentType.TURN, -35, 0.7);
+        deadReckon.addSegment(DeadReckon.SegmentType.TURN, 35, 0.7);
         deadReckon.addSegment(DeadReckon.SegmentType.STRAIGHT, 133, 0.9);
-        deadReckon.addSegment(DeadReckon.SegmentType.TURN, -45, 0.7);
+        deadReckon.addSegment(DeadReckon.SegmentType.TURN, 45, 0.7);
         deadReckon.addSegment(DeadReckon.SegmentType.STRAIGHT, 27, 0.9);
         deadReckon.addSegment(DeadReckon.SegmentType.STRAIGHT, 0, 0);
     }

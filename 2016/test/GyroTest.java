@@ -37,28 +37,6 @@ public class GyroTest extends Robot {
 
     @Override
     public void start() {
-        /*
-        leftMotor.setPower(-0.3);
-        rightMotor.setPower(0.3);
-
-        addTask(new GyroTask(this, sensor, -180, true) {
-            public void handleEvent(RobotEvent e) {
-                GyroEvent event = (GyroEvent) e;
-
-                if (event.kind == EventKind.HIT_TARGET || event.kind == EventKind.PAST_TARGET) {
-                    leftMotor.setPower(0);
-                    rightMotor.setPower(0);
-                } else if (event.kind == EventKind.THRESHOLD_80) {
-                    leftMotor.setPower(-0.1);
-                    rightMotor.setPower(0.1);
-                } else if (event.kind == EventKind.THRESHOLD_90) {
-                    leftMotor.setPower(-0.10);
-                    rightMotor.setPower(0.10);
-                }
-            }
-        });
-        */
-
         // Display: gyro.
         GyroTask displayGyro = new GyroTask(this, sensor, 360, true);
         this.addTask(displayGyro);

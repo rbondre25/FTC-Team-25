@@ -1,8 +1,12 @@
-package team25core;/*
+
+package team25core;
+
+/*
  * FTC Team 25: cmacfarl, September 03, 2015
  */
 
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.RobotLog;
 
 public abstract class SingleShotTimerTask extends RobotTask {
 
@@ -52,9 +56,11 @@ public abstract class SingleShotTimerTask extends RobotTask {
     public boolean timeslice()
     {
         if (timer.time() > timeout) {
+            RobotLog.i("Timeout ending");
             robot.queueEvent(new SingleShotTimerEvent(this, EventKind.EXPIRED));
             return true;
         } else {
+            RobotLog.i("Timeout starting");
             return false;
         }
     }

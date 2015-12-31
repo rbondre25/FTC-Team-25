@@ -94,11 +94,11 @@ public abstract class DeadReckon {
                         // motorTurn(Math.max(0.15, currSegment.speed * 0.02));
                     } else if (event.kind == EventKind.ERROR_UPDATE) {
                         double e = Math.exp(1.0);
-                        double logVal = Math.pow(e, (5.6 * (event.val / Math.abs(currSegment.distance))));
+                        double logVal = Math.pow(e, (4.251 * (event.val / Math.abs(currSegment.distance))));
                         if (currSegment.distance < 0) {
-                            speed = -(logVal / 100) - 0.01;
+                            speed = -(logVal / 50) - 0.01;
                         } else {
-                            speed = (logVal / 100) + 0.01;
+                            speed = (logVal / 50) + 0.01;
                         }
                         motorTurn(speed);
                         RobotLog.i("251 Gyro error " + event.val);
@@ -106,6 +106,42 @@ public abstract class DeadReckon {
                 }
             });
             motorTurn(currSegment.speed);
+        }
+    }
+
+    protected void setupSegmentAlt()
+    {
+        motorStop();
+
+        currSegment = segments.poll();
+        setup = true;
+
+        if (currSegment.type == SegmentType.STRAIGHT) {
+            RobotLog.i("251 Setting up straight segment: " + foo);
+            ResetMotorGyroComboTask rct = new ResetMotorGyroComboTask(this.robot, masterMotor, gyro) {
+                @Override
+                public void handleEvent(RobotEvent e)
+                {
+                    RobotLog.i("251 Combo reset done, consuming segment:" + foo);
+                    RobotLog.i("251 Setting encoders to " + ((int) (currSegment.distance * encoderTicksPerInch)) + "ticks");
+                    resetEncoders((int) currSegment.distance * encoderTicksPerInch);
+                    setup = false;
+                    consumeSegment();
+                }
+            };
+            this.robot.addTask(rct);
+        } else {
+            RobotLog.i("251 Setting up turn segment: " + foo);
+            ResetMotorGyroComboTask rct = new ResetMotorGyroComboTask(this.robot, masterMotor, gyro) {
+                @Override
+                public void handleEvent(RobotEvent e)
+                {
+                    RobotLog.i("251 Combo reset done, consuming segment:" + foo);
+                    setup = false;
+                    consumeSegment();
+                }
+            };
+            this.robot.addTask(rct);
         }
     }
 
@@ -123,6 +159,7 @@ public abstract class DeadReckon {
                 public void handleEvent(RobotEvent e)
                 {
                     RobotLog.i("251 Encoder reset done, consuming segment:" + foo);
+                    RobotLog.i("251 Setting encoders to " + ((int) (currSegment.distance * encoderTicksPerInch)) + "ticks");
                     resetEncoders((int) currSegment.distance * encoderTicksPerInch);
                     setup = false;
                     consumeSegment();
@@ -158,13 +195,13 @@ public abstract class DeadReckon {
     public boolean runPath()
     {
         if (currSegment == null) {
-            setupSegment();
+            setupSegmentAlt();
             return false;
         }
 
         if (!segments.isEmpty() && !consumingSegment()) {
             foo++;
-            setupSegment();
+            setupSegmentAlt();
             return true;
         } else if (segments.isEmpty() && !consumingSegment()) {
             motorStop();

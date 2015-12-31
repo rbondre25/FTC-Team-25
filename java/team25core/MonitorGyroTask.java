@@ -6,6 +6,7 @@ package team25core;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.util.RobotLog;
 
 public class MonitorGyroTask extends RobotTask {
 
@@ -36,14 +37,25 @@ public class MonitorGyroTask extends RobotTask {
         robot.removeTask(this);
     }
 
+    public void reset()
+    {
+        gyro.resetZAxisIntegrator();
+        SingleShotTimerTask delay = new SingleShotTimerTask(robot, 2000) {
+            @Override
+            public void handleEvent(RobotEvent e)
+            {
+                // Wait for gyro to reset.
+            }
+        };
+        robot.addTask(delay);
+    }
+
     @Override
     public boolean timeslice()
     {
         robot.telemetry.addData("Gyro Heading: ", gyro.getHeading());
+        RobotLog.i("Heading:" + gyro.getHeading());
 
-        /*
-         * Never stops.
-         */
         return false;
     }
 }
