@@ -10,9 +10,9 @@ public class UltrasonicSensorCriteria implements SensorCriteria {
 
     private int distance;
 
-    UltrasonicAveragingTask average;
+    IUltrasonicAveraging average;
 
-    public UltrasonicSensorCriteria(UltrasonicAveragingTask average, int distance)
+    public UltrasonicSensorCriteria(IUltrasonicAveraging average, int distance)
     {
         this.average = average;
         this.distance = distance;

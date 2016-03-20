@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.RobotLog;
 
 import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 
-public class UltrasonicAveragingTask extends RobotTask {
+public class UltrasonicAveragingTask extends RobotTask implements IUltrasonicAveraging {
 
     protected int setSize;
     UltrasonicSensorArbitratorTask arbitrator;

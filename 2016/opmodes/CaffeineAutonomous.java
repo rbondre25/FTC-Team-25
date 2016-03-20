@@ -1,10 +1,12 @@
 package opmodes;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsUsbLegacyModule;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.DeviceInterfaceModule;
 import com.qualcomm.robotcore.hardware.DigitalChannelController;
+import com.qualcomm.robotcore.hardware.LegacyModule;
 import com.qualcomm.robotcore.hardware.LightSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.UltrasonicSensor;
@@ -25,9 +27,11 @@ import team25core.RobotEvent;
 import team25core.ServoOscillateTask;
 import team25core.SingleShotTimerTask;
 import team25core.Team25DcMotor;
+import team25core.Team25UltrasonicSensor;
 import team25core.TwoWheelGearedDriveDeadReckon;
 import team25core.UltrasonicAveragingTask;
 import team25core.UltrasonicSensorCriteria;
+import team25core.UltrasonicSensorHighAvailabilityTask;
 
 /*
  * FTC Team 5218: izzielau, February 17, 2016
@@ -56,12 +60,13 @@ public class CaffeineAutonomous extends Robot {
     private Team25DcMotor leftTread;
     private Team25DcMotor rightTread;
     private DeviceInterfaceModule core;
+    private ModernRoboticsUsbLegacyModule legacy;
     private ModernRoboticsI2cGyro gyro;
     private ColorSensor color;
     private LightSensor frontLight;
     private LightSensor backLight;
-    private UltrasonicSensor leftSound;
-    private UltrasonicSensor rightSound;
+    private Team25UltrasonicSensor leftSound;
+    private Team25UltrasonicSensor rightSound;
     private Servo leftPusher;
     private Servo rightPusher;
     private Servo leftBumper;
@@ -75,7 +80,7 @@ public class CaffeineAutonomous extends Robot {
     private LightSensorCriteria backLightCriteria;
     private LightSensorCriteria frontDarkCriteria;
     private UltrasonicSensorCriteria distanceCriteria;
-    private UltrasonicAveragingTask ultrasonicLeftAverage;
+    private UltrasonicSensorHighAvailabilityTask ultrasonicAvailability;
     private GamepadTask gamepad;
 
     private ElapsedTime elapsedTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
@@ -197,14 +202,13 @@ public class CaffeineAutonomous extends Robot {
         backLightCriteria = new LightSensorCriteria(backLight, LIGHT_MIN_BACK, LIGHT_MAX_BACK);
 
         // Ultrasonic.
-        leftSound = hardwareMap.ultrasonicSensor.get("leftSound");
-        rightSound = hardwareMap.ultrasonicSensor.get("rightSound");
+        leftSound = new Team25UltrasonicSensor(legacy, 5);
+        rightSound = new Team25UltrasonicSensor(legacy, 4);
 
         // Ultrasonic criteria.
-        ultrasonicLeftAverage = new UltrasonicAveragingTask(this, leftSound,
-                          NeverlandAutonomousConstants.MOVING_AVG_SET_SIZE);
-        distanceCriteria = new UltrasonicSensorCriteria(ultrasonicLeftAverage,
-                           NeverlandAutonomousConstants.DISTANCE_FROM_BEACON);
+        //ultrasonicAvailability = new UltrasonicSensorHighAvailabilityTask(this, rightSound, leftSound);
+        //distanceCriteria = new UltrasonicSensorCriteria(ultrasonicAvailability,
+        //                    NeverlandAutonomousConstants.DISTANCE_FROM_BEACON);
 
         // Servos.
         climber = hardwareMap.servo.get("climber");
@@ -405,8 +409,8 @@ public class CaffeineAutonomous extends Robot {
                 RobotLog.i("251 Moving forward to beacon, using ultrasonic sensor");
                 ptt.addData("Path Success: ", "Both light sensors aligned with the white line");
 
-                // Turns on left ultrasonic sensor.
-                addTask(ultrasonicLeftAverage);
+                // Arbitrarily turns on ultrasonic sensors.
+                addTask(ultrasonicAvailability);
 
                 // (1) Moves forward OR until ultrasonic sensor is certain distance away from wall.
                 TwoWheelGearedDriveDeadReckon moveToBeacon = new TwoWheelGearedDriveDeadReckon
