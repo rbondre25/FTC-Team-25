@@ -45,12 +45,17 @@ public class ServoOscillateTask extends RobotTask {
 
     @Override
     public void stop() {
+
+    }
+
+    public void stop(float position) {
+        servo.setPosition(position);
         robot.removeTask(this);
     }
 
     @Override
     public void handleEvent(RobotEvent e) {
-
+        robot.removeTask(this);
     }
 
     @Override

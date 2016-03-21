@@ -162,7 +162,6 @@ public class CaffeineAutonomous extends Robot {
     @Override
     public void init()
     {
-
         // Set globals to default so no errors occur.
         alliance = Alliance.PURPLE;
         afterBeacon = AfterBeacon.STAY_AT_WASABI_WONTON;
@@ -206,9 +205,9 @@ public class CaffeineAutonomous extends Robot {
         rightSound = new Team25UltrasonicSensor(legacy, 4);
 
         // Ultrasonic criteria.
-        //ultrasonicAvailability = new UltrasonicSensorHighAvailabilityTask(this, rightSound, leftSound);
-        //distanceCriteria = new UltrasonicSensorCriteria(ultrasonicAvailability,
-        //                    NeverlandAutonomousConstants.DISTANCE_FROM_BEACON);
+        ultrasonicAvailability = new UltrasonicSensorHighAvailabilityTask(this, rightSound, leftSound);
+        distanceCriteria = new UltrasonicSensorCriteria(ultrasonicAvailability,
+                            NeverlandAutonomousConstants.DISTANCE_FROM_BEACON);
 
         // Servos.
         climber = hardwareMap.servo.get("climber");
@@ -246,11 +245,11 @@ public class CaffeineAutonomous extends Robot {
         addTask(gamepad);
 
         // Creates task for servo oscillation.
-        //ServoOscillateTask oscillate = new ServoOscillateTask(this, rightPusher, 128, 20);
+        //ServoOscillateTask oscillate = new ServoOscillateTask(this, rightPusher, 230, 20);
         //addTask(oscillate);
 
         //if (alliance != Alliance.PURPLE) {
-        //    oscillate.stop();
+        //   oscillate.stop(NeverlandServoConstants.RIGHT_PUSHER_STOWED);
         //}
     }
 

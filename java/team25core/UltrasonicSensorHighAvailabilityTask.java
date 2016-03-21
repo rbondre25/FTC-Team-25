@@ -9,7 +9,8 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import java.util.HashSet;
 import java.util.Set;
 
-public class UltrasonicSensorHighAvailabilityTask extends UltrasonicSensorArbitratorTask {
+public class UltrasonicSensorHighAvailabilityTask extends UltrasonicSensorArbitratorTask
+        implements IUltrasonicAveraging {
 
     Team25UltrasonicSensor active;
     Team25UltrasonicSensor primary;
@@ -18,7 +19,9 @@ public class UltrasonicSensorHighAvailabilityTask extends UltrasonicSensorArbitr
     HashSet<Team25UltrasonicSensor> primarySet;
     HashSet<Team25UltrasonicSensor> secondarySet;
 
-    private UltrasonicSensorHighAvailabilityTask(Robot robot, Team25UltrasonicSensor p, Team25UltrasonicSensor s)
+    private double avg;
+
+    public UltrasonicSensorHighAvailabilityTask(Robot robot, Team25UltrasonicSensor p, Team25UltrasonicSensor s)
     {
         super(robot, null);
         this.primarySet = new HashSet<Team25UltrasonicSensor>();
@@ -80,4 +83,10 @@ public class UltrasonicSensorHighAvailabilityTask extends UltrasonicSensorArbitr
         return false;
     }
 
+    @Override
+    public double getAverage() {
+        avg = getUltrasonicLevel();
+
+        return avg;
+    }
 }
