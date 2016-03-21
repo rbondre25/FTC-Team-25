@@ -9,22 +9,32 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class ServoOscillateTask extends RobotTask {
 
+    protected enum EventKind {
+        INITIAL,
+        ENDPOINT,
+    }
+
+    protected EventKind state;
     protected ElapsedTime timer;
 
-    private int TIME = 888;
+    private int TIME = 1525;
 
-    private int count = 0;
-    private int direction;
-    private int position;
+    private int initial;
     private int range;
+    private int endpoint;
 
     private Servo servo;
 
     public ServoOscillateTask(Robot robot, Servo servo, int startPoint, int range)
     {
         super(robot);
-        this.position = startPoint;
+        this.initial = startPoint;
         this.range = range;
+        if ((startPoint + range) > 255) {
+            this.endpoint = (startPoint - range);
+        } else {
+            this.endpoint = (startPoint + range);
+        }
         this.servo = servo;
     }
 
@@ -46,21 +56,18 @@ public class ServoOscillateTask extends RobotTask {
     @Override
     public boolean timeslice() {
         if (timer.time() > TIME) {
-            if ((count % 2) == 0) {
-                // If count is odd, move negative.
-                direction = -range;
-            } else if ((count % 2) == 1){
-                // If count is even, move positive.
-                direction = range;
+            if (state == EventKind.INITIAL) {
+                state = EventKind.ENDPOINT;
+                servo.setPosition(initial);
+            } else if (state == EventKind.ENDPOINT) {
+                state = EventKind.INITIAL;
+                servo.setPosition(endpoint);
             }
-
-            position += direction;
-            servo.setPosition((float)position/(float)256.0);
             timer.reset();
         }
 
-        count++;
-        robot.telemetry.addData("Position: ", position);
+        robot.telemetry.addData("Position: ", servo.getPosition());
+        robot.telemetry.addData("Range: ", range);
         return false;
     }
 }
