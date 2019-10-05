@@ -16,6 +16,8 @@ public class Stonedetectiontest extends Robot {
     private Telemetry.Item stonePositionTelem;
     private Telemetry.Item stoneTelem;
     private Telemetry.Item stoneConfidenceTelem;
+    private Telemetry.Item stoneType;
+
     private double confidence;
     private double left;
 
@@ -37,8 +39,10 @@ public class Stonedetectiontest extends Robot {
                     confidence = event.stones.get(0).getConfidence();
                     left = event.stones.get(0).getLeft();
                     RobotLog.ii(TAG, "Saw: " + event.kind + " Confidence: " + confidence);
+
                     stonePositionTelem = telemetry.addData("left origin", left);
                     stoneConfidenceTelem = telemetry.addData("confidence", confidence);
+                    stoneType = telemetry.addData("stonetype",stoneType);
                 }
             };
 
