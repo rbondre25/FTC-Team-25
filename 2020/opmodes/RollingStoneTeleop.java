@@ -78,16 +78,24 @@ public class RollingStoneTeleop extends Robot {
     private DcMotor liftMotor;
 
 
-    private final double OPEN_LEFT_SERVO = (float)50 / (float)256;
-    private final double OPEN_RIGHT_SERVO = (float)171 / (float)256;
-    private final double CLOSE_LEFT_SERVO = (float)90 / (float)256;
-    private final double CLOSE_RIGHT_SERVO = (float)109 / (float)256;
+    private final double OPEN_LEFT_SERVO = (float)52 / (float)256;
+    private final double OPEN_RIGHT_SERVO = (float)155 / (float)256;
+    private final double CLOSE_LEFT_SERVO = (float)85 / (float)256;
+    private final double CLOSE_RIGHT_SERVO = (float)123 / (float)256;
     private final double OPEN_MONSTER_RETENTION_SERVO = 220 / 256;
     private final double CLOSE_MONSTER_RETENTION_SERVO = 117 / 256;
     private final double DOWN_GRABBER_SERVO = (float)1/(float)256.0;
     private final double UP_GRABBER_SERVO = (float)80/(float)256.0;
     private final double LIFT_POWER_UP = -0.5;
     private final double LIFT_POWER_DOWN = 0.5;
+    private final double OPEN_foundationHookLeft = (float)230 / (float)256;
+    private final double OPEN_foundationHookRight = (float)129 / (float)256;
+    private final double CLOSE_foundationHookLeft = (float)128 / (float)256;
+    private final double CLOSE_foundationHookRight = (float)218 / (float)256;
+
+
+
+
     DeadmanMotorTask liftLinearUp;
     DeadmanMotorTask liftLinearDown;
 
@@ -250,12 +258,12 @@ public class RollingStoneTeleop extends Robot {
 
                 switch (gamepadEvent.kind) {
                     case RIGHT_BUMPER_DOWN:
-                        foundationHookLeft.setPosition(0.0390625); //open
-                        foundationHookRight.setPosition(0.34765625);
+                        foundationHookLeft.setPosition(OPEN_foundationHookLeft); //open 0.0390625
+                        foundationHookRight.setPosition(OPEN_foundationHookRight); //0.34765625
                         break;
                     case RIGHT_TRIGGER_DOWN:
-                        foundationHookLeft.setPosition(0.54296875);
-                        foundationHookRight.setPosition(0.83984375);
+                        foundationHookLeft.setPosition(CLOSE_foundationHookLeft); //0.54296875
+                        foundationHookRight.setPosition(CLOSE_foundationHookRight); //0.83984375
                         break;
                     case BUTTON_B_DOWN:
                         grabberServo.setPosition(UP_GRABBER_SERVO);
