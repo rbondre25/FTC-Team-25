@@ -81,8 +81,8 @@ public class RollingStoneTeleop extends Robot {
     private final double CLOSE_RIGHT_SERVO = (float) 62.0 / 256.0;
     private final double OPEN_MONSTER_RETENTION_SERVO = (float) 203.0 / 256.0;  //220
     private final double CLOSE_MONSTER_RETENTION_SERVO = (float) 128.0 / 256.0; //117
-    private final double DOWN_GRABBER_SERVO = (float)1/256.0;
-    private final double UP_GRABBER_SERVO = (float) 80/256.0;
+    private final double DOWN_GRABBER_SERVO = (float)255/256.0;
+    private final double UP_GRABBER_SERVO = (float) 30/256.0;
     private final double UP_FOUNDATION_LEFT_SERVO = (float) 118/ 256.0;
     private final double DOWN_FOUNDATION_LEFT_SERVO = (float) 237/ 256.0;
     private final double UP_FOUNDATION_RIGHT_SERVO = (float) 212/ 256.0;

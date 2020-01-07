@@ -30,8 +30,8 @@ public class SkyStoneAutoMeet2 extends Robot {
     private Servo foundationHookRightServo;
     private Servo foundationHookLeftServo;
 
-    private final double DOWN_GRABBER_SERVO = (float) 0/ (float)256.0;
-    private final double UP_GRABBER_SERVO = (float)80 / (float)256.0;
+    private final double DOWN_GRABBER_SERVO = (float) 255/ (float)256.0;
+    private final double UP_GRABBER_SERVO = (float) 30/ (float)256.0;
     private final double OPEN_FOUNDATION_HOOK_RIGHT_SERVO = (float)91 / (float)256.0;
     private final double OPEN_FOUNDATION_HOOK_LEFT_SERVO  = (float)113 / (float)256.0;
     private final double CLOSE_FOUNDATION_HOOK_RIGHT_SERVO  = (float)216/ (float)256.0;  //FIX ALL FOUNDATION SERVO
@@ -98,7 +98,7 @@ public class SkyStoneAutoMeet2 extends Robot {
     private int imageWidth;
     private boolean inCenter;
     private double realNumPixelsPerInch;
-    private final int DISTANCE_FROM_WEBCAM_TO_GRABBER =14;
+    private final int DISTANCE_FROM_WEBCAM_TO_GRABBER =1;
     private double distance;
 
     private String stoneType;
@@ -371,6 +371,7 @@ public class SkyStoneAutoMeet2 extends Robot {
                     distance = (double)(DISTANCE_FROM_WEBCAM_TO_GRABBER * realNumPixelsPerInch);
                     distanceBtWWebcamAndGrabberTlm.setValue(distance);
 
+                    marginTlm.setValue(Math.abs(numPixelsBtwImgMidptAndStoneMidpt - distance));
                     if ((numPixelsBtwImgMidptAndStoneMidpt > 0)  &&
                             (Math.abs(numPixelsBtwImgMidptAndStoneMidpt - distance)  < margin)) {
                     /* old detection if (Math.abs(imageMidpoint - stoneMidpoint) < margin) {
@@ -487,9 +488,9 @@ public class SkyStoneAutoMeet2 extends Robot {
     public void init()
     {
 
-        frontLeft = hardwareMap.dcMotor.get("frontleft");
+        frontLeft = hardwareMap.dcMotor.get("frontLeft");
         frontRight = hardwareMap.dcMotor.get("frontRight");
-        rearLeft = hardwareMap.dcMotor.get("rearleft");
+        rearLeft = hardwareMap.dcMotor.get("rearLeft");
         rearRight = hardwareMap.dcMotor.get("rearRight");
 
         grabberServo = hardwareMap.servo.get("grabberServo");
